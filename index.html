@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday, Muskan!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            min-height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            text-align: center;
+            z-index: 10;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 4rem;
+            color: #ff6b6b;
+            text-shadow: 3px 3px 0 #ffd166, 6px 6px 0 rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            animation: bounce 2s infinite alternate;
+            opacity: 0;
+            transform: translateY(-50px);
+            transition: all 1s ease;
+        }
+
+        @keyframes bounce {
+            0% {
+                transform: translateY(0);
+            }
+
+            100% {
+                transform: translateY(-20px);
+            }
+        }
+
+        .gift-button {
+            background: linear-gradient(to right, #ff6b6b, #ff8e53);
+            border: none;
+            color: white;
+            padding: 15px 30px;
+            font-size: 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            opacity: 0;
+            transform: scale(0.8);
+            animation: pulse 2s infinite;
+        }
+
+        .gift-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(to right, #ff8e53, #ff6b6b);
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 15px rgba(255, 107, 107, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 107, 107, 0);
+            }
+        }
+
+        .balloon {
+            position: absolute;
+            bottom: -100px;
+            width: 60px;
+            height: 70px;
+            border-radius: 50%;
+            z-index: 1;
+            animation: floatUp linear forwards;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .balloon:before {
+            content: "";
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 50px;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) translateZ(0) rotate(0deg);
+            }
+
+            25% {
+                transform: translateY(-25vh) translateZ(20px) rotate(5deg);
+            }
+
+            50% {
+                transform: translateY(-50vh) translateZ(0) rotate(0deg);
+            }
+
+            75% {
+                transform: translateY(-75vh) translateZ(-20px) rotate(-5deg);
+            }
+
+            100% {
+                transform: translateY(-100vh) translateZ(0) rotate(10deg);
+            }
+        }
+
+        @keyframes pop {
+            0% {
+                transform: translateX(0) scale(1) translateZ(0);
+                opacity: 1;
+            }
+
+            50% {
+                transform: translateX(20px) scale(1.2) translateZ(20px);
+                opacity: 0.7;
+            }
+
+            100% {
+                transform: translateX(0) scale(0) translateZ(0);
+                opacity: 0;
+            }
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            opacity: 0;
+        }
+
+        .name-display {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            font-size: 5rem;
+            font-weight: bold;
+            color: #ffd166;
+            text-shadow: 0 0 20px #ff6b6b, 0 0 30px #ff6b6b;
+            z-index: 100;
+            opacity: 0;
+            animation: glow 2s infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ff6b6b, 0 0 40px #ff6b6b;
+            }
+
+            to {
+                text-shadow: 0 0 20px #fff, 0 0 30px #ff8e53, 0 0 40px #ff8e53, 0 0 50px #ff8e53;
+            }
+        }
+
+        .slideshow-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            width: 80%;
+            max-width: 600px;
+            height: 70vh;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+            z-index: 50;
+            opacity: 0;
+        }
+
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .active {
+            opacity: 1;
+        }
+
+        .voice-message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 200;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.5s ease;
+        }
+
+        .pause-all {
+            animation-play-state: paused !important;
+        }
+
+        .wish-box {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 200;
+            width: 80%;
+            max-width: 500px;
+            display: none;
+        }
+
+        .wish-box input,
+        .wish-box textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+
+        .wish-box button {
+            background: linear-gradient(to right, #ff6b6b, #ff8e53);
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .cake {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            width: 100px;
+            height: 100px;
+            background: #f8c4c4;
+            border-radius: 10px;
+            cursor: pointer;
+            z-index: 150;
+            display: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .cake:before {
+            content: "";
+            position: absolute;
+            top: -20px;
+            left: 0;
+            width: 100%;
+            height: 20px;
+            background: #ff6b6b;
+            border-radius: 50%;
+        }
+
+        .cake:after {
+            content: "";
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 30px;
+            background: #ffd166;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .gift-button {
+                font-size: 1.2rem;
+                padding: 12px 24px;
+            }
+
+            .name-display {
+                font-size: 3rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 id="birthday-heading">Happy Birthday, Muskan!</h1>
+        <button class="gift-button" id="gift-button">Click here to see your birthday gift</button>
+    </div>
+
+    <div class="name-display" id="name-display">Muskan</div>
+
+    <div class="slideshow-container" id="slideshow-container">
+        <!-- Slides will be added dynamically -->
+    </div>
+
+    <div class="voice-message" id="voice-message">Happy Birthday, Muskan!</div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const giftButton = document.getElementById('gift-button');
+            const birthdayHeading = document.getElementById('birthday-heading');
+            const nameDisplay = document.getElementById('name-display');
+            const slideshowContainer = document.getElementById('slideshow-container');
+            const voiceMessage = document.getElementById('voice-message');
+
+            // Show elements with animation
+            setTimeout(() => {
+                birthdayHeading.style.opacity = '1';
+                birthdayHeading.style.transform = 'translateY(0)';
+            }, 500);
+
+            setTimeout(() => {
+                giftButton.style.opacity = '1';
+                giftButton.style.transform = 'scale(1)';
+            }, 1500);
+
+            // Gift button click handler
+            giftButton.addEventListener('click', function () {
+                // Hide the button
+                giftButton.style.opacity = '0';
+                setTimeout(() => {
+                    giftButton.style.display = 'none';
+                }, 500);
+
+                // Start the birthday celebration
+                startBirthdayCelebration();
+            });
+
+            function createBalloons() {
+                const colors = ['#ff6b6b', '#4ecdc4', '#ffd166', '#6a0572', '#1a936f', '#ff9a8b', '#9b5de5'];
+                const balloonCount = 20;
+
+                for (let i = 0; i < balloonCount; i++) {
+                    setTimeout(() => {
+                        const balloon = document.createElement('div');
+                        balloon.className = 'balloon';
+                        balloon.style.left = Math.random() * 100 + 'vw';
+                        balloon.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                        balloon.style.animationDuration = (8 + Math.random() * 7) + 's';
+
+                        // Make balloons clickable
+                        balloon.style.cursor = 'pointer';
+                        balloon.addEventListener('click', function () {
+                            popBalloon(balloon);
+                        });
+
+                        document.body.appendChild(balloon);
+
+                        // Add pop animation when balloon reaches top
+                        setTimeout(() => {
+                            popBalloon(balloon);
+                        }, 7000);
+                    }, i * 300);
+                }
+            }
+
+            function popBalloon(balloon) {
+                // Pop animation
+                balloon.style.animation = 'pop 0.5s forwards';
+                
+                // Remove balloon after popping
+                setTimeout(() => {
+                    balloon.remove();
+                }, 500);
+            }
+
+            function playBackgroundMusic() {
+                // Create audio element for background music
+                const bgMusic = document.getElementById('bg-music') || document.createElement('audio');
+                bgMusic.id = 'bg-music';
+                bgMusic.loop = true;
+                bgMusic.volume = 0.7;
+
+                // Use the uploaded audio file
+                bgMusic.src = 'bgm.mp3';
+
+                // Play the music
+                const playPromise = bgMusic.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(error => {
+                        console.log("Autoplay prevented. User needs to interact with the page:", error);
+                        // Show a play button if autoplay is blocked
+                        showPlayButton(bgMusic);
+                    });
+                }
+
+                // Add to DOM if not already present
+                if (!document.body.contains(bgMusic)) {
+                    document.body.appendChild(bgMusic);
+                }
+            }
+
+            function createConfetti() {
+                const colors = ['#ff6b6b', '#4ecdc4', '#ffd166', '#6a0572', '#1a936f', '#ff9a8b', '#9b5de5'];
+
+                // Create a more advanced particle system
+                for (let i = 0; i < 150; i++) {
+                    setTimeout(() => {
+                        const confetti = document.createElement('div');
+                        confetti.className = 'confetti';
+                        confetti.style.left = Math.random() * 100 + 'vw';
+                        confetti.style.top = '-20px';
+                        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                        confetti.style.opacity = '1';
+                        confetti.style.transform = `scale(${Math.random() * 0.5 + 0.5})`;
+                        confetti.style.width = `${Math.random() * 15 + 5}px`;
+                        confetti.style.height = `${Math.random() * 15 + 5}px`;
+
+                        document.body.appendChild(confetti);
+
+                        // Animate with physics (gravity and wind effects)
+                        animateConfetti(confetti);
+                    }, i * 30);
+                }
+            }
+
+            function animateConfetti(confetti) {
+                // Physics-based animation
+                let posX = parseFloat(confetti.style.left);
+                let posY = -20;
+                let velocityX = (Math.random() - 0.5) * 4; // Horizontal velocity
+                let velocityY = Math.random() * 2 + 1; // Initial downward velocity
+                let gravity = 0.1;
+                let wind = (Math.random() - 0.5) * 0.2;
+                let rotation = 0;
+                let rotationSpeed = (Math.random() - 0.5) * 10;
+
+                function update() {
+                    velocityY += gravity; // Apply gravity
+                    velocityX += wind; // Apply wind
+
+                    posY += velocityY;
+                    posX += velocityX;
+                    rotation += rotationSpeed;
+
+                    // Apply boundaries
+                    if (posX < 0 || posX > window.innerWidth) {
+                        velocityX *= -0.8; // Bounce
+                        posX = posX < 0 ? 0 : window.innerWidth;
+                    }
+
+                    confetti.style.transform = `translate(${posX - parseFloat(confetti.style.left)}px, ${posY}px) rotate(${rotation}deg)`;
+                    confetti.style.opacity = 1 - (posY / window.innerHeight);
+
+                    // Continue animation if still visible
+                    if (posY < window.innerHeight && parseFloat(confetti.style.opacity) > 0.05) {
+                        requestAnimationFrame(update);
+                    } else {
+                        confetti.remove();
+                    }
+                }
+
+                requestAnimationFrame(update);
+            }
+
+            function startBirthdayCelebration() {
+                // Create balloons
+                createBalloons();
+
+                // Play background music
+                playBackgroundMusic();
+
+                // Create confetti
+                createConfetti();
+
+                // Show interactive elements after a delay
+                setTimeout(() => {
+                    showInteractiveElements();
+                }, 5000);
+
+                // Show name after balloons finish
+                setTimeout(() => {
+                    showName();
+                }, 8000);
+
+                // Start slideshow
+                setTimeout(() => {
+                    startSlideshow();
+                }, 9000);
+
+                // Play voice message
+                setTimeout(() => {
+                    playVoiceMessage();
+                }, 11000);
+            }
+
+
+
+            function sendWish() {
+                const name = document.getElementById('wisher-name').value;
+                const message = document.getElementById('wish-message').value;
+
+                if (name && message) {
+                    alert(`Thank you ${name} for your wish: "${message}"`);
+                    document.getElementById('wisher-name').value = '';
+                    document.getElementById('wish-message').value = '';
+                } else {
+                    alert('Please fill in both fields!');
+                }
+            }
+
+            function cutCake() {
+                const cake = document.getElementById('cake');
+                cake.style.background = '#ff6b6b';
+                cake.innerHTML = '🎂';
+                cake.style.fontSize = '50px';
+                cake.style.textAlign = 'center';
+                cake.style.lineHeight = '100px';
+
+                // Create cake pieces
+                for (let i = 0; i < 10; i++) {
+                    setTimeout(() => {
+                        const piece = document.createElement('div');
+                        piece.style.position = 'absolute';
+                        piece.style.width = '20px';
+                        piece.style.height = '20px';
+                        piece.style.background = '#f8c4c4';
+                        piece.style.borderRadius = '50%';
+                        piece.style.left = (parseInt(cake.style.left) + 40) + 'px';
+                        piece.style.top = (parseInt(cake.style.top) + 40) + 'px';
+                        piece.style.zIndex = '151';
+                        document.body.appendChild(piece);
+
+                        // Animate piece
+                        let posX = parseInt(piece.style.left);
+                        let posY = parseInt(piece.style.top);
+                        let velocityX = (Math.random() - 0.5) * 10;
+                        let velocityY = Math.random() * -10 - 5;
+                        let gravity = 0.5;
+
+                        function animatePiece() {
+                            velocityY += gravity;
+                            posY += velocityY;
+                            posX += velocityX;
+
+                            piece.style.left = posX + 'px';
+                            piece.style.top = posY + 'px';
+                            piece.style.opacity = parseFloat(piece.style.opacity || 1) - 0.02;
+
+                            if (posY < window.innerHeight && parseFloat(piece.style.opacity) > 0) {
+                                requestAnimationFrame(animatePiece);
+                            } else {
+                                piece.remove();
+                            }
+                        }
+
+                        requestAnimationFrame(animatePiece);
+                    }, i * 100);
+                }
+            }
+
+            function showName() {
+                // Removed name display functionality as requested
+                return;
+            }
+
+            function startSlideshow() {
+                // Image files in the directory
+                const imageFiles = [
+                    'img1.jpg',
+                    'img2.jpg',
+                    'img3.jpg',
+                    'img4.jpg',
+                    'img5.jpg',
+                    'img6.jpg',
+                    'img7.jpg'
+                ];
+
+                // Create slides for each image
+                imageFiles.forEach(filename => {
+                    const slide = document.createElement('div');
+                    slide.className = 'slide';
+                    slide.style.backgroundImage = `url(${filename})`;
+                    slideshowContainer.appendChild(slide);
+                });
+
+                // Show slideshow
+                slideshowContainer.style.opacity = '1';
+                slideshowContainer.style.transform = 'translate(-50%, -50%) scale(1)';
+
+                // Start slide transitions
+                const slides = document.querySelectorAll('.slide');
+                if (slides.length > 0) {
+                    let currentSlide = 0;
+                    slides[0].classList.add('active');
+
+                    setInterval(() => {
+                        slides[currentSlide].classList.remove('active');
+                        currentSlide = (currentSlide + 1) % slides.length;
+                        slides[currentSlide].classList.add('active');
+                    }, 3000);
+                }
+            }
+
+            function playVoiceMessage() {
+                // Show voice message
+                voiceMessage.style.opacity = '1';
+                voiceMessage.style.transform = 'translateY(0)';
+
+                // Create a simple beep sound as placeholder for voice message
+                try {
+                    const context = new (window.AudioContext || window.webkitAudioContext)();
+                    const oscillator = context.createOscillator();
+                    const gainNode = context.createGain();
+
+                    oscillator.connect(gainNode);
+                    gainNode.connect(context.destination);
+
+                    oscillator.type = 'sine';
+                    oscillator.frequency.value = 440;
+                    gainNode.gain.value = 0.3;
+
+                    oscillator.start();
+
+                    // Play for 1 second
+                    setTimeout(() => {
+                        oscillator.stop();
+                    }, 1000);
+                } catch (e) {
+                    console.log("Web Audio API not supported");
+                }
+
+                // Pause all animations briefly
+                const allElements = document.querySelectorAll('*');
+                allElements.forEach(el => {
+                    if (el.animate) {
+                        el.classList.add('pause-all');
+                    }
+                });
+
+                // Resume after 2 seconds
+                setTimeout(() => {
+                    allElements.forEach(el => {
+                        if (el.animate) {
+                            el.classList.remove('pause-all');
+                        }
+                    });
+
+                    // Hide voice message
+                    voiceMessage.style.opacity = '0';
+                    voiceMessage.style.transform = 'translateY(-20px)';
+                }, 2000);
+            }
+
+            function showPlayButton(audioElement) {
+                // Create a play button if autoplay is blocked
+                const playBtn = document.getElementById('play-btn') || document.createElement('button');
+                playBtn.id = 'play-btn';
+                playBtn.textContent = 'Play Music';
+                playBtn.style.position = 'fixed';
+                playBtn.style.bottom = '20px';
+                playBtn.style.right = '20px';
+                playBtn.style.padding = '10px 20px';
+                playBtn.style.background = '#ff6b6b';
+                playBtn.style.color = 'white';
+                playBtn.style.border = 'none';
+                playBtn.style.borderRadius = '30px';
+                playBtn.style.zIndex = '1000';
+                playBtn.style.cursor = 'pointer';
+                playBtn.style.boxShadow = '0 4px 8px rgba(0,0,0,0.2)';
+
+                playBtn.onclick = function () {
+                    const playPromise = audioElement.play();
+                    if (playPromise !== undefined) {
+                        playPromise.then(() => {
+                            playBtn.remove();
+                        }).catch(error => {
+                            console.log("Error playing audio:", error);
+                        });
+                    }
+                };
+
+                if (!document.body.contains(playBtn)) {
+                    document.body.appendChild(playBtn);
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
